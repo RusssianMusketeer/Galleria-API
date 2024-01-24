@@ -7,6 +7,7 @@ export const client = createClient({
 	socket: {
 		host: "redis-19133.c267.us-east-1-4.ec2.cloud.redislabs.com",
 		port: 19133,
+		connectTimeout: 50000,
 	},
 });
 
