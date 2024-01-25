@@ -103,7 +103,7 @@ export function registerPaintingsUser(req, res) {
 
 	pool.query(q, values, (error, data) => {
 		if (error) return res.json(error);
-		return res.json("Added painting successfully !");
+		return res.json("Added painting successfully!");
 	});
 }
 
