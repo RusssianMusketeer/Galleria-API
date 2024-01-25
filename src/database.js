@@ -38,6 +38,34 @@ export function register(req, res) {
 		} catch (error) {
 			return res.status(401).json(error);
 		}
+		const transporter = nodemailer.createTransport({
+			service: "gmail",
+			auth: {
+				user: process.env.EMAIL_ADDRESS,
+				pass: process.env.EMAIL_PASSWORD,
+			},
+		});
+
+		const mailOptions = {
+			from: process.env.EMAIL_ADDRESS,
+			to: req.body.email,
+			subject: "Welcome to Galleria",
+			text:
+				`Hello\n\n` +
+				`You have just created your account with galleria !\n` +
+				`We hope you enjoy the slideshow and save your favorite paintings in your profile.\n\n` +
+				`Regards, Galleria`,
+		};
+
+		transporter.sendMail(mailOptions, function (error, info) {
+			if (error) {
+				console.log(error);
+			} else {
+				console.log("Email sent: " + info.response);
+				// do something useful
+				res.status(200).json("recovery email sent");
+			}
+		});
 		return res.status(200).json(data);
 	});
 }
