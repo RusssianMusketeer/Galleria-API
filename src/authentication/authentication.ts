@@ -2,19 +2,24 @@ import "dotenv/config";
 import jwt from "jsonwebtoken";
 import { getUser } from "../database.js";
 
-export async function authMiddleware(req, res, next) {
+interface IjwtVeryfyResult {
+	email: string;
+	id: string;
+}
+
+export async function authMiddleware(req: any, res: any, next: any) {
 	const authHeader = req.headers.authorization;
 
 	if (!authHeader) {
 		return res.sendStatus(401);
 	}
 
-	const data = jwt.verify(
+	// @ts-ignore
+	const data: IjwtVeryfyResult = jwt.verify(
 		authHeader,
 		process.env.JWT_SEC,
-		function (error, decoded) {
+		function (error: any, decoded: IjwtVeryfyResult) {
 			if (error) {
-				console.log("hi");
 				return res.sendStatus(401);
 			}
 			return decoded;

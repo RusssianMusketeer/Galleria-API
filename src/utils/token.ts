@@ -1,11 +1,16 @@
 import jwt from "jsonwebtoken";
 import "dotenv/config";
 
-export function createToken(email,id) {
+interface ItokenProps {
+	email: string;
+	id: string;
+}
+
+export function createToken({ email, id }: ItokenProps) {
 	return jwt.sign(
 		{
 			email,
-            id
+			id,
 		},
 		process.env.JWT_SEC,
 		{ expiresIn: "24h" }

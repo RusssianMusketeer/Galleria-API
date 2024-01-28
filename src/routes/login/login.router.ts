@@ -4,6 +4,6 @@ import { checkCacheMiddleware } from "../../caching/caching.js";
 
 const loginRouter = express.Router();
 
-loginRouter.post("/login",checkCacheMiddleware, loginUser);
+loginRouter.post("/login", checkCacheMiddleware, loginUser);
 
 export default loginRouter;

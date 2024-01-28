@@ -1,3 +1,4 @@
+// @ts-nocheck
 import mysql from "mysql2";
 import { encryption } from "./utils/encryption.js";
 import { decryption } from "./utils/decryption.js";
@@ -13,14 +14,14 @@ const pool = mysql.createPool({
 	user: process.env.MYSQL_USER,
 	password: process.env.MYSQL_PASSWORD,
 	database: process.env.MYSQL_DATABASE,
-	port: process.env.MYSQL_PORT,
+	port: process.env.MYSQL_PORT as unknown as number,
 });
 pool.getConnection(function (err) {
 	if (err) throw err;
 	console.log("Connected!");
 });
 
-export function register(req, res) {
+export function register(req: any, res: any) {
 	const q = "INSERT INTO Users (`email`,`password`) VALUES (?, ?)";
 	const encryptedPassword = encryption(req.body.password);
 	const values = [req.body.email, encryptedPassword];
@@ -122,7 +123,7 @@ export function putPaintings(req, res) {
 	});
 }
 
-export function getUser(id) {
+export function getUser(id: string) {
 	const q = "SELECT * FROM `Users` WHERE `id` = ? ";
 	let promise;
 	promise = pool.promise().query(q, [id], (error, data) => {

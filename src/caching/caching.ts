@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createClient } from "redis";
 import "dotenv/config";
 import { loginEncryptionToken } from "../utils/loginEncryptionToken.js";
@@ -13,11 +14,11 @@ export const client = createClient({
 
 await client.connect();
 
-export async function checkCacheMiddleware(req, res, next) {
-	const key = req.body.email;
+export async function checkCacheMiddleware(req: any, res: any, next: any) {
+	const key: string = req.body.email;
 
 	// Check if data is in cache
-	const result = await client.hGetAll(key, (err, data) => {
+	const result = await client.hGetAll(key, (err: any, data: any) => {
 		if (err) {
 			throw err;
 		}
@@ -29,7 +30,6 @@ export async function checkCacheMiddleware(req, res, next) {
 	});
 	if (Object.keys(result).length !== 0) {
 		const data = loginEncryptionToken(result, res);
-
 		const user = data.data;
 		const { token } = data;
 		const { decryptedPassword } = data;
